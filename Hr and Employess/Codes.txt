@@ -1,0 +1,36 @@
+---Employees Table
+--Get the fullname
+----Get the age bins
+-----Get States Full name
+---- Get Salary bins
+select 
+Gender, BusinessTravel, Department, `DistanceFromHome KM`, Ethnicity, Education, EducationField, JobRole, MaritalStatus, StockOptionLevel, OverTime, HireDate, Attrition, YearsAtCompany, YearsInMostRecentRole, YearsSinceLastPromotion, YearsWithCurrManager,
+CONCAT(FirstName , " ",LastName) AS Employee_Full_Name,
+AGE,
+  CASE
+    WHEN Age BETWEEN 18 AND 24 THEN '18-24'
+    WHEN Age BETWEEN 25 AND 31 THEN '25-31'
+    WHEN Age BETWEEN 32 AND 38 THEN '32-38'
+    WHEN Age BETWEEN 39 AND 45 THEN '39-45'
+    WHEN Age BETWEEN 46 AND 51 THEN '46-51'
+    ELSE 'Out of range'
+  END AS Age_Bin
+,
+EmployeeID,State,
+  CASE
+    WHEN Salary BETWEEN 20387 AND 50000 THEN 'Under 50K'
+    WHEN Salary BETWEEN 50001 AND 155000 THEN '50K–150K'
+    WHEN Salary BETWEEN 155001 AND 260000 THEN '150K–250K'
+    WHEN Salary BETWEEN 260001 AND 500000 THEN '250K–500K'
+    WHEN Salary > 500000 THEN 'Above 5Lac'
+    ELSE 'Out of range'
+  END AS Salary_Bin,
+    CASE
+    WHEN State = 'CA' THEN 'California'
+    WHEN State = 'IL' THEN 'Illinois'
+    WHEN State = 'NY' THEN 'New York'
+    ELSE 'Other'
+  END AS State_Full_Name
+from `hr-and-employees.Data.Employees`
+
+

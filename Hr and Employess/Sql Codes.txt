@@ -1,0 +1,184 @@
+---Employees Table
+--Get the fullname
+----Get the age bins
+-----Get States Full name
+---- Get Salary bins
+select 
+Gender, BusinessTravel, Department, `DistanceFromHome KM`, Ethnicity, Education, EducationField, JobRole, MaritalStatus, StockOptionLevel, OverTime, HireDate, Attrition, YearsAtCompany, YearsInMostRecentRole, YearsSinceLastPromotion, YearsWithCurrManager,
+CONCAT(FirstName , " ",LastName) AS Employee_Full_Name,
+AGE,
+  CASE
+    WHEN Age BETWEEN 18 AND 24 THEN '18-24'
+    WHEN Age BETWEEN 25 AND 31 THEN '25-31'
+    WHEN Age BETWEEN 32 AND 38 THEN '32-38'
+    WHEN Age BETWEEN 39 AND 45 THEN '39-45'
+    WHEN Age BETWEEN 46 AND 51 THEN '46-51'
+    ELSE 'Out of range'
+  END AS Age_Bin
+,
+EmployeeID,State,
+  CASE
+    WHEN Salary BETWEEN 20387 AND 50000 THEN 'Under 50K'
+    WHEN Salary BETWEEN 50001 AND 155000 THEN '50K–150K'
+    WHEN Salary BETWEEN 155001 AND 260000 THEN '150K–250K'
+    WHEN Salary BETWEEN 260001 AND 500000 THEN '250K–500K'
+    WHEN Salary > 500000 THEN 'Above 5Lac'
+    ELSE 'Out of range'
+  END AS Salary_Bin,
+    CASE
+    WHEN State = 'CA' THEN 'California'
+    WHEN State = 'IL' THEN 'Illinois'
+    WHEN State = 'NY' THEN 'New York'
+    ELSE 'Other'
+  END AS State_Full_Name
+from `hr-and-employees.Data.Employees`
+
+--- Join Employees Table And  EducationLevel
+SELECT 
+  e.Gender, 
+  e.BusinessTravel, 
+  e.Department, 
+  e.`DistanceFromHome KM`, 
+  e.Ethnicity, 
+  e.Education, 
+  e.EducationField, 
+  e.JobRole, 
+  e.MaritalStatus, 
+  e.StockOptionLevel, 
+  e.OverTime, 
+  e.HireDate, 
+  e.Attrition, 
+  e.YearsAtCompany, 
+  e.YearsInMostRecentRole, 
+  e.YearsSinceLastPromotion, 
+  e.YearsWithCurrManager,
+  CONCAT(e.FirstName, " ", e.LastName) AS Employee_Full_Name,
+  e.Age,
+
+  -- Age Bins
+  CASE
+    WHEN e.Age BETWEEN 18 AND 24 THEN '18-24'
+    WHEN e.Age BETWEEN 25 AND 31 THEN '25-31'
+    WHEN e.Age BETWEEN 32 AND 38 THEN '32-38'
+    WHEN e.Age BETWEEN 39 AND 45 THEN '39-45'
+    WHEN e.Age BETWEEN 46 AND 51 THEN '46-51'
+    ELSE 'Out of range'
+  END AS Age_Bin,
+
+  e.EmployeeID,
+  e.State,
+
+  -- Salary Bins
+  CASE
+    WHEN e.Salary BETWEEN 20387 AND 50000 THEN 'Under 50K'
+    WHEN e.Salary BETWEEN 50001 AND 155000 THEN '50K–150K'
+    WHEN e.Salary BETWEEN 155001 AND 260000 THEN '150K–250K'
+    WHEN e.Salary BETWEEN 260001 AND 500000 THEN '250K–500K'
+    WHEN e.Salary > 500000 THEN 'Above 5Lac'
+    ELSE 'Out of range'
+  END AS Salary_Bin,
+
+  -- Full State Names
+  CASE
+    WHEN e.State = 'CA' THEN 'California'
+    WHEN e.State = 'IL' THEN 'Illinois'
+    WHEN e.State = 'NY' THEN 'New York'
+    ELSE 'Other'
+  END AS State_Full_Name,
+
+  el.EducationLevel AS Education_Standars
+
+FROM `hr-and-employees.Data.Employees` e
+JOIN `hr-and-employees.Data.EducationLevel` el
+  ON e.Education = el.EducationLevelID
+
+-----------------Create Table 1 
+create Table `hr-and-employees.Data.Emp_Educ_Table` AS
+SELECT 
+  e.Gender, 
+  e.BusinessTravel, 
+  e.Department, 
+  e.`DistanceFromHome KM`, 
+  e.Ethnicity, 
+  e.Education, 
+  e.EducationField, 
+  e.JobRole, 
+  e.MaritalStatus, 
+  e.StockOptionLevel, 
+  e.OverTime, 
+  e.HireDate, 
+  e.Attrition, 
+  e.YearsAtCompany, 
+  e.YearsInMostRecentRole, 
+  e.YearsSinceLastPromotion, 
+  e.YearsWithCurrManager,
+  CONCAT(e.FirstName, " ", e.LastName) AS Employee_Full_Name,
+  e.Age,
+
+  -- Age Bins
+  CASE
+    WHEN e.Age BETWEEN 18 AND 24 THEN '18-24'
+    WHEN e.Age BETWEEN 25 AND 31 THEN '25-31'
+    WHEN e.Age BETWEEN 32 AND 38 THEN '32-38'
+    WHEN e.Age BETWEEN 39 AND 45 THEN '39-45'
+    WHEN e.Age BETWEEN 46 AND 51 THEN '46-51'
+    ELSE 'Out of range'
+  END AS Age_Bin,
+
+  e.EmployeeID,
+  e.State,
+
+  -- Salary Bins
+  CASE
+    WHEN e.Salary BETWEEN 20387 AND 50000 THEN 'Under 50K'
+    WHEN e.Salary BETWEEN 50001 AND 155000 THEN '50K–150K'
+    WHEN e.Salary BETWEEN 155001 AND 260000 THEN '150K–250K'
+    WHEN e.Salary BETWEEN 260001 AND 500000 THEN '250K–500K'
+    WHEN e.Salary > 500000 THEN 'Above 5Lac'
+    ELSE 'Out of range'
+  END AS Salary_Bin,
+
+  -- Full State Names
+  CASE
+    WHEN e.State = 'CA' THEN 'California'
+    WHEN e.State = 'IL' THEN 'Illinois'
+    WHEN e.State = 'NY' THEN 'New York'
+    ELSE 'Other'
+  END AS State_Full_Name,
+
+  el.EducationLevel AS Education_Standars
+
+FROM `hr-and-employees.Data.Employees` e
+JOIN `hr-and-employees.Data.EducationLevel` el
+  ON e.Education = el.EducationLevelID
+
+
+-----------------------
+
+-----------Performacr Rating & Rating Level & SatisfactionLevel Table
+Create Table `hr-and-employees.Data.Per_Ra_Sat` As
+SELECT
+  PerformanceID,
+  EmployeeID,
+  ReviewDate,
+  S.SatisfactionLevel AS EnvironmentSatisfaction,
+  S2.SatisfactionLevel As JobSatisfaction,
+  S3.SatisfactionLevel AS  RelationshipSatisfaction,
+  TrainingOpportunitiesWithinYear,
+  TrainingOpportunitiesTaken,
+  R.RatingLevel AS SelfRating,
+  R2.RatingLevel AS ManagerRating
+  
+FROM
+  `hr-and-employees.Data.PerformanceRating` P
+  join `hr-and-employees.Data.RatingLevel` R
+  on R.RatingID = P.SelfRating
+  join `hr-and-employees.Data.RatingLevel` R2
+  on R2.RatingID = P.ManagerRating
+  join `hr-and-employees.Data.SatisfiedLevel` S
+  on S.SatisfactionID = P.EnvironmentSatisfaction
+  join `hr-and-employees.Data.SatisfiedLevel` S2
+  on P.JobSatisfaction = S.SatisfactionID
+  join `hr-and-employees.Data.SatisfiedLevel` S3
+  on P.RelationshipSatisfaction = S3.SatisfactionID
+
