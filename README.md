@@ -1,4 +1,6 @@
-Data-Analyst-Portfolio-Project-Google-BigQuery-Looker-Studio-Employee-Performance-Analysis
+Project-Google-BigQuery-Looker-Studio-Employee-Performance-Analysis
+---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
 The link of Emp_Educ_Table(Employees & Education) Big Query Analysis
 
 https://console.cloud.google.com/bigquery?sq=530473149274:58ad320c37254d7590c395ea9493f013
